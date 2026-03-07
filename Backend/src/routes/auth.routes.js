@@ -4,7 +4,9 @@ const authMiddleware = require("../middlewares/auth.middleware")
 
 const authRouter = Router()
 
-/**
+// below are js doc comments 
+
+/** 
  * @route POST /api/auth/register
  * @description Register a new user
  * @access Public
