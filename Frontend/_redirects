@@ -1,3 +1,7 @@
+# Don't rewrite files
+/index.html  200
+/assets/*  200
+
 # Proxy API requests to backend
 /api/*  https://your-backend-domain.com/api/:splat  200
 
