@@ -79,9 +79,11 @@ const interviewReportSchema = new mongoose.Schema({
     },
     resume: {
         type: String,
+        required: [ true, "Resume text is required" ]
     },
     selfDescription: {
         type: String,
+        required: [ true, "Self description is required" ]
     },
     matchScore: {
         type: Number,

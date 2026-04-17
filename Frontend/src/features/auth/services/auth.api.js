@@ -2,7 +2,7 @@ import axios from "axios"
 
 
 const api = axios.create({
-    baseURL: "https://genai-resume-skill-gap-project.onrender.com",
+    baseURL: "http://localhost:3000",
     withCredentials: true
 })
 
@@ -16,9 +16,8 @@ export async function register({ username, email, password }) {
         return response.data
 
     } catch (err) {
-
-        console.log(err)
-
+        console.error("Registration error:", err.response?.data || err.message)
+        throw err
     }
 
 }
@@ -34,7 +33,8 @@ export async function login({ email, password }) {
         return response.data
 
     } catch (err) {
-        console.log(err)
+        console.error("Login error:", err.response?.data || err.message)
+        throw err
     }
 
 }
@@ -60,7 +60,8 @@ export async function getMe() {
         return response.data
 
     } catch (err) {
-        console.log(err)
+        console.error("Get user error:", err.response?.data || err.message)
+        throw err
     }
 
 }
