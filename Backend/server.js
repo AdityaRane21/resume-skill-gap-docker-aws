@@ -5,12 +5,17 @@ const express = require("express");
 const app = require("./src/app");
 const connectToDB = require("./src/config/database");
 
-connectToDB();
-
 const publicPath = path.join(__dirname, "public");
+
+// Serve static files
 app.use(express.static(publicPath));
 
-// SPA fallback: serve index for non-API routes.
+// ✅ Health check route (VERY IMPORTANT)
+app.get("/", (req, res) => {
+    res.status(200).send("OK");
+});
+
+// SPA fallback
 app.use((req, res, next) => {
     if (req.path.startsWith("/api")) {
         return next();
@@ -20,4 +25,16 @@ app.use((req, res, next) => {
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(process.env.PORT || 3000, "0.0.0.0");
+// ✅ Start server ONLY after DB connects
+connectToDB()
+    .then(() => {
+        console.log("Connected to Database");
+
+        app.listen(PORT, "0.0.0.0", () => {
+            console.log(`Server running on port ${PORT}`);
+        });
+    })
+    .catch((err) => {
+        console.error("DB connection failed:", err);
+        process.exit(1);
+    });
