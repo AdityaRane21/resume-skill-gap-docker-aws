@@ -19,17 +19,27 @@ Write-Host "[OK] Account ID: $ACCOUNT_ID"
 Write-Host "[OK] Region: $REGION"
 Write-Host "[OK] Repository: $REPO_NAME"
 
-# Step 2: Create ECR Repo (if not exists)
-Write-Host "`n[2/5] Creating ECR Repository..."
+# Step 2: Create ECR Repo (safe check)
 
-$repoExists = aws ecr describe-repositories --repository-names $REPO_NAME 2>$null
+Write-Host "`n[2/5] Checking/Creating ECR Repository..."
 
-if (-not $repoExists) {
-    Write-Host "Creating new ECR repository..."
-    aws ecr create-repository --repository-name $REPO_NAME | Out-Null
-    Write-Host "[OK] Repository created"
-} else {
+try {
+    aws ecr describe-repositories `
+        --repository-names $REPO_NAME `
+        --region $REGION `
+        | Out-Null
+
     Write-Host "[OK] Repository already exists"
+}
+catch {
+    Write-Host "Repository not found. Creating new ECR repository..."
+
+    aws ecr create-repository `
+        --repository-name $REPO_NAME `
+        --region $REGION `
+        | Out-Null
+
+    Write-Host "[OK] Repository created"
 }
 
 # Step 3: Build Docker Image
