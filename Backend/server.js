@@ -20,6 +20,4 @@ app.use((req, res, next) => {
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+app.listen(process.env.PORT || 3000, "0.0.0.0");
