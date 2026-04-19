@@ -1,3 +1,6 @@
+app.get("/health", (req, res) => {
+    res.status(200).send("OK");
+});
 require("dotenv").config();
 const path = require("path");
 const express = require("express");
