@@ -12,6 +12,8 @@ app.use(cors({
     credentials: true
 }))
 
+
+app.listen(process.env.PORT || 3000, "0.0.0.0");
 /* require all the routes here */
 const authRouter = require("./routes/auth.routes")
 const interviewRouter = require("./routes/interview.routes")
